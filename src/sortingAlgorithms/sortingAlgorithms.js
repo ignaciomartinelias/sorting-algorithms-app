@@ -54,6 +54,7 @@ function swap(el1, el2, delay) {
 
 export async function selectionSort(delay) {
   let items = Array.from(document.querySelectorAll(".sorting-item"));
+  sortArray(items);
   let len = items.length;
   for (let i = 0; i < len; i++) {
     items[i].classList.add("active");
@@ -82,6 +83,7 @@ export async function selectionSort(delay) {
 
 export async function bubbleSort(delay) {
   let items = Array.from(document.querySelectorAll(".sorting-item"));
+  sortArray(items);
   for (let i = 0; i < items.length - 1; i++) {
     for (let j = 0; j < items.length - i - 1; j++) {
       items[j].classList.add("active");
@@ -107,6 +109,7 @@ export async function quickSort(arr, delay) {
   if (items.length === 0) {
     items = Array.from(document.querySelectorAll(".sorting-item"));
   }
+  sortArray(items);
   const pivot = items[Math.floor(Math.random() * items.length)];
   const pivotOriginalindex = items.indexOf(pivot);
   

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { bubbleSort, selectionSort, quickSort } from "../sortingAlgorithms/sortingAlgorithms";
+import { bubbleSort, selectionSort, quickSort, sortArray } from "../sortingAlgorithms/sortingAlgorithms";
 
 const ToolBarContainer = styled.div`
   width: 100%;
@@ -57,6 +57,26 @@ const ToolBar = ({ block, setBlock, loading, finished, setFinished, resetArray, 
     setFinished(true);
   };
 
+  // const checkIfCorrect = () => {
+  //   const items = Array.from(document.querySelectorAll(".sorting-item"));
+  //   sortArray(items);
+  //   let isCorrect = true;
+  //   for(let i=0;i<items.length - 1;i++) {
+  //     if(items[i].getAttribute('value') > items[i + 1].getAttribute('value')) {
+  //       isCorrect = false;
+  //     }
+  //   }
+  //   return isCorrect
+  // }
+
+  // const testQuick = async () => {
+  //   for(let i=0;i<100;i++) {
+  //     await quickSort([],0);
+  //     console.log(checkIfCorrect());
+  //     resetArray();
+  //   }
+  // }
+
   return (
     <ToolBarContainer>
       <AlgorithmButton disabled={block || loading} onClick={() => sort("selection")}>
@@ -68,6 +88,10 @@ const ToolBar = ({ block, setBlock, loading, finished, setFinished, resetArray, 
       <AlgorithmButton disabled={block || loading} onClick={() => sort("quick")}>
         Quick Sort
       </AlgorithmButton>
+
+      {/* <AlgorithmButton onClick={testQuick}>
+        Quick Sort
+      </AlgorithmButton> */}
     </ToolBarContainer>
   );
 };
