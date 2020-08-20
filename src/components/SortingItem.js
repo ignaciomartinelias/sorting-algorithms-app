@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useContext} from "react";
 import styled from "styled-components";
+import {AppContext} from '../context/AppContext';
 
 const CircleWrapper = styled.div`
   position: absolute;
@@ -15,6 +16,12 @@ const CircleWrapper = styled.div`
   &.active {
     background: #232528;
   }
+  &.group-1 {
+    background: #D65EFF;
+  }
+  &.group-2 {
+    background: #F3FF5E;
+  }
   &.done {
     background: #d81e5b;
   }
@@ -24,10 +31,14 @@ const CircleWrapper = styled.div`
     top: -20px;
     left: 50%;
     transform: translate(-50%, 0);
+    font-size: .8em;
   }
 `;
 
-const SortingItem = ({ value, color, order, distance }) => {
+const SortingItem = ({ value, order }) => {
+
+  const { distance, color} = useContext(AppContext);
+
   return (
     <CircleWrapper className='sorting-item' value={value} color={color} order={order} distance={distance}>
       <span>{value}</span>

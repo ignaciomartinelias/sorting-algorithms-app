@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useContext} from "react";
 import styled from "styled-components";
 import Slider from "@bit/campgladiator.cgui.components.atoms.slider";
+import { AppContext } from "../context/AppContext";
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -50,7 +51,8 @@ const ActionButton = styled.button`
     }
 `;
 
-const Header = ({ resetArray, color, setColor, amount, setAmount, block }) => {
+const Header = () => {
+  const { resetArray, color, setColor, amount, setAmount, block } = useContext(AppContext);
   return (
     <HeaderContainer>
       <h3> Sorting Algorithms Visualizer</h3>

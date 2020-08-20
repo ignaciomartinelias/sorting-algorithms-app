@@ -1,11 +1,14 @@
-import React from 'react';
-import SortingVisualizer from './components/SortingVisualizer';
+import React from "react";
+import SortingVisualizer from "./components/SortingVisualizer";
+import { AppProvider } from "./context/AppContext";
 
 function App() {
   return (
-    <div className="App">
-      <SortingVisualizer/>
-    </div>
+    <AppProvider>
+      <div className='App'>
+        <SortingVisualizer />
+      </div>
+    </AppProvider>
   );
 }
 

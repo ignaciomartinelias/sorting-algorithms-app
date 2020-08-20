@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
-import { bubbleSort, selectionSort, quickSort, sortArray } from "../sortingAlgorithms/sortingAlgorithms";
+import { bubbleSort, selectionSort, quickSort, mergeSort, sortArray } from "../sortingAlgorithms/sortingAlgorithms";
+import { AppContext } from "../context/AppContext";
 
 const ToolBarContainer = styled.div`
   width: 100%;
@@ -31,15 +32,17 @@ const AlgorithmButton = styled.button`
   }
 `;
 
-const ToolBar = ({ block, setBlock, loading, finished, setFinished, resetArray, amount }) => {
+const ToolBar = () => {
+  const { block, setBlock, loading, finished, setFinished, resetArray, amount } = useContext(AppContext);
 
   const sort = async type => {
-    if(finished) {
-        setFinished(false);
-        resetArray();
+    if (finished) {
+      setFinished(false);
+      resetArray();
     }
     const speed = 1000 / amount;
     setBlock(true);
+    const t1 = performance.now();
     switch (type) {
       case "selection":
         await selectionSort(speed);
@@ -48,11 +51,16 @@ const ToolBar = ({ block, setBlock, loading, finished, setFinished, resetArray, 
         await bubbleSort(speed);
         break;
       case "quick":
-        await quickSort([], speed);
+        await quickSort(speed);
+        break;
+      case "merge":
+        await mergeSort(speed);
         break;
       default:
         return null;
     }
+    const t2 = performance.now();
+    console.log(t2 - t1);
     setBlock(false);
     setFinished(true);
   };
@@ -61,21 +69,21 @@ const ToolBar = ({ block, setBlock, loading, finished, setFinished, resetArray, 
   //   const items = Array.from(document.querySelectorAll(".sorting-item"));
   //   sortArray(items);
   //   let isCorrect = true;
-  //   for(let i=0;i<items.length - 1;i++) {
-  //     if(items[i].getAttribute('value') > items[i + 1].getAttribute('value')) {
+  //   for (let i = 0; i < items.length - 1; i++) {
+  //     if (items[i].getAttribute("value") > items[i + 1].getAttribute("value")) {
   //       isCorrect = false;
   //     }
   //   }
-  //   return isCorrect
-  // }
+  //   return isCorrect;
+  // };
 
   // const testQuick = async () => {
-  //   for(let i=0;i<100;i++) {
-  //     await quickSort([],0);
+  //   for (let i = 0; i < 100; i++) {
+  //     await quickSort(0);
   //     console.log(checkIfCorrect());
   //     resetArray();
   //   }
-  // }
+  // };
 
   return (
     <ToolBarContainer>
@@ -88,10 +96,11 @@ const ToolBar = ({ block, setBlock, loading, finished, setFinished, resetArray, 
       <AlgorithmButton disabled={block || loading} onClick={() => sort("quick")}>
         Quick Sort
       </AlgorithmButton>
+      <AlgorithmButton disabled={block || loading} onClick={() => sort("merge")}>
+        Merge Sort
+      </AlgorithmButton>
 
-      {/* <AlgorithmButton onClick={testQuick}>
-        Quick Sort
-      </AlgorithmButton> */}
+      {/* <AlgorithmButton onClick={testQuick}>Quick Sort</AlgorithmButton> */}
     </ToolBarContainer>
   );
 };
