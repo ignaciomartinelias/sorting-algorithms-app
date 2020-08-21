@@ -1,4 +1,18 @@
+let abort = false;
+export function stop(delay) {
+  abort = true;
+  let items = Array.from(document.querySelectorAll(".sorting-item"));
+  items.forEach(el => el.classList.remove("done", "group-1", "group-2", "active"));
+}
+
+export function resume() {
+  abort = false;
+}
+
 function sleep(delay) {
+  if (abort) {
+    return null;
+  }
   return new Promise(resolve =>
     setTimeout(() => {
       resolve();
@@ -18,6 +32,9 @@ function chunkArray(myArray, chunk_size) {
 }
 
 async function swapAnimation(el1, el2, delay) {
+  if (abort) {
+    return null;
+  }
   return new Promise(resolve => {
     const style1 = window.getComputedStyle(el1);
     const style2 = window.getComputedStyle(el2);
@@ -58,6 +75,9 @@ async function swapAnimation(el1, el2, delay) {
 }
 
 async function quickSortSwapAnimation(a, b, pivot, delay) {
+  if (abort) {
+    return null;
+  }
   a.classList.add("active");
   b !== pivot && b.classList.add("active");
   await swapAnimation(a, b, delay);
@@ -67,6 +87,9 @@ async function quickSortSwapAnimation(a, b, pivot, delay) {
 }
 
 async function mergeSortGroupAnimation(arr, delay) {
+  if (abort) {
+    return null;
+  }
   return new Promise(resolve => {
     arr.forEach(el => {
       window.requestAnimationFrame(function () {
@@ -84,6 +107,9 @@ async function mergeSortGroupAnimation(arr, delay) {
 }
 
 async function mergeSortSwapAnimation(el1, el2, delay) {
+  if (abort) {
+    return null;
+  }
   return new Promise(resolve => {
     const style1 = window.getComputedStyle(el1);
     const style2 = window.getComputedStyle(el2);
@@ -128,6 +154,9 @@ export async function selectionSort(delay) {
     let min = i;
     items[i].classList.add("active");
     for (let j = i + 1; j < len; j++) {
+      if (abort) {
+        return null;
+      }
       items[j].classList.add("active");
       await sleep(delay);
       const value1 = Number(items[min].getAttribute("value"));
@@ -156,6 +185,9 @@ export async function bubbleSort(delay) {
   sortArray(items);
   for (let i = 0; i < items.length - 1; i++) {
     for (let j = 0; j < items.length - i - 1; j++) {
+      if (abort) {
+        return null;
+      }
       items[j].classList.add("active");
       items[j + 1].classList.add("active");
       await sleep(delay);
@@ -177,6 +209,9 @@ export async function quickSort(delay, arr = [], recursive = false) {
   if (arr.length === 0 && !recursive) {
     arr = Array.from(document.querySelectorAll(".sorting-item"));
   }
+  if (abort) {
+    return null;
+  }
   sortArray(arr);
   switch (arr.length) {
     case 0:
@@ -195,6 +230,9 @@ export async function quickSort(delay, arr = [], recursive = false) {
       let exit = false;
       while (!exit) {
         await sleep(delay);
+        if (abort) {
+          return null;
+        }
         const shortArray = arr.slice(0, arr.length - 1);
         const bigger = shortArray.find(v => v.getAttribute("value") > pivot.getAttribute("value"));
         const reversed = shortArray.reverse();
@@ -230,11 +268,13 @@ export async function mergeSort(delay) {
   const pos = Array.from(document.querySelectorAll(".placement-item"));
   let factor = 1;
   while (factor < arr.length * 2) {
-    await sleep(delay);
     sortArray(arr);
     const arrays = chunkArray(arr, factor);
 
     for (let i = 0; i < arrays.length; i = i + 2) {
+      if (abort) {
+        return null;
+      }
       if (i + 1 < arrays.length) {
         const left = arrays[i];
         const right = arrays[i + 1];
@@ -262,6 +302,7 @@ export async function mergeSort(delay) {
           correctArray[0].classList.remove("group-1");
           factor * 2 >= arr.length && correctArray[0].classList.add("done");
           correctArray.shift();
+          await sleep(delay);
         }
       }
     }

@@ -1,6 +1,14 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { bubbleSort, selectionSort, quickSort, mergeSort, sortArray } from "../sortingAlgorithms/sortingAlgorithms";
+import {
+  bubbleSort,
+  selectionSort,
+  quickSort,
+  mergeSort,
+  sortArray,
+  stop,
+  resume,
+} from "../sortingAlgorithms/sortingAlgorithms";
 import { AppContext } from "../context/AppContext";
 
 const ToolBarContainer = styled.div`
@@ -10,6 +18,26 @@ const ToolBarContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: flex-start;
+`;
+
+const ActionButton = styled.button`
+  background: black;
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    opacity: 0.75;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 `;
 
 const AlgorithmButton = styled.button`
@@ -33,28 +61,29 @@ const AlgorithmButton = styled.button`
 `;
 
 const ToolBar = () => {
-  const { block, setBlock, loading, finished, setFinished, resetArray, amount } = useContext(AppContext);
+  const { block, setBlock, loading, finished, setFinished, resetArray, speed } = useContext(AppContext);
 
   const sort = async type => {
+    resume();
     if (finished) {
       setFinished(false);
       resetArray();
     }
-    const speed = 1000 / amount;
+    const regulatedSpeed = 440 - speed;
     setBlock(true);
     const t1 = performance.now();
     switch (type) {
       case "selection":
-        await selectionSort(speed);
+        await selectionSort(regulatedSpeed);
         break;
       case "bubble":
-        await bubbleSort(speed);
+        await bubbleSort(regulatedSpeed);
         break;
       case "quick":
-        await quickSort(speed);
+        await quickSort(regulatedSpeed);
         break;
       case "merge":
-        await mergeSort(speed);
+        await mergeSort(regulatedSpeed);
         break;
       default:
         return null;
@@ -63,6 +92,11 @@ const ToolBar = () => {
     console.log(t2 - t1);
     setBlock(false);
     setFinished(true);
+  };
+
+  const stopSort = () => {
+    stop(speed);
+    resetArray();
   };
 
   // const checkIfCorrect = () => {
@@ -87,6 +121,9 @@ const ToolBar = () => {
 
   return (
     <ToolBarContainer>
+      <ActionButton onClick={resetArray} disabled={block}>
+        Generate New Array
+      </ActionButton>
       <AlgorithmButton disabled={block || loading} onClick={() => sort("selection")}>
         Selection Sort
       </AlgorithmButton>
@@ -99,6 +136,9 @@ const ToolBar = () => {
       <AlgorithmButton disabled={block || loading} onClick={() => sort("merge")}>
         Merge Sort
       </AlgorithmButton>
+      <ActionButton onClick={stopSort} disabled={!block}>
+        Stop Animation
+      </ActionButton>
 
       {/* <AlgorithmButton onClick={testQuick}>Quick Sort</AlgorithmButton> */}
     </ToolBarContainer>

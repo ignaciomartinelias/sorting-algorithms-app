@@ -1,7 +1,10 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import Slider from "@bit/campgladiator.cgui.components.atoms.slider";
+import { CirclePicker } from "react-color";
 import { AppContext } from "../context/AppContext";
+
+const colors = ['#3FFBBE', '#F47373', '#697689', '#37D67A', '#2CCCE4', '#BC5F04'];
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -13,11 +16,41 @@ const HeaderContainer = styled.div`
 
   h3 {
     font-weight: 600;
+    width: 30%;
+  }
+
+  .sliders-wrapper {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    .slider-container {
+      width: 45%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .slider-label {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, 50%);
+      }
+    }
   }
 `;
 
-const AmountSlider = styled(Slider)`
-  width: 40%;
+const ColorPicker = styled(CirclePicker)`
+  &.disabled span {
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: .5;
+  }
+`
+
+const StyledSlider = styled(Slider)`
+  width: 100%;
   span {
     background-color: ${props => props.color} !important;
     cursor: pointer;
@@ -31,33 +64,39 @@ const AmountSlider = styled(Slider)`
   }
 `;
 
-const ActionButton = styled.button`
-  background: black;
-  padding: 10px 20px;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: 0.2s;
-
-  &:hover {
-    opacity: 0.75;
-  }
-  &:focus {
-    outline: none;
-  }
-  &:disabled {
-        cursor: not-allowed;
-        opacity: 0.5;
-    }
-`;
-
 const Header = () => {
-  const { resetArray, color, setColor, amount, setAmount, block } = useContext(AppContext);
+  const { color, setColor, amount, setAmount, block, speed, setSpeed } = useContext(AppContext);
   return (
     <HeaderContainer>
       <h3> Sorting Algorithms Visualizer</h3>
-      <AmountSlider disabled={block} color={color} value={amount} onChange={e => setAmount(e.value)} min={5} max={30} />
-      <ActionButton onClick={resetArray} disabled={block}>Generate New Array</ActionButton>
+      <ColorPicker className={block && 'disabled'} color={color} colors={colors} onChangeComplete={(c) => setColor(c.hex)} />
+      <div className='sliders-wrapper'>
+        <div className='slider-container'>
+          <span className='slider-label'>Amount</span>
+          <StyledSlider
+            showValue={false}
+            disabled={block}
+            color={color}
+            value={amount}
+            onChange={e => setAmount(e.value)}
+            min={4}
+            max={30}
+          />
+        </div>
+
+        <div className='slider-container'>
+          <span className='slider-label'>Speed</span>
+          <StyledSlider
+            showValue={false}
+            disabled={block}
+            color={color}
+            value={speed}
+            onChange={e => setSpeed(e.value)}
+            min={0}
+            max={400}
+          />
+        </div>
+      </div>
     </HeaderContainer>
   );
 };

@@ -20,7 +20,7 @@ const CircleWrapper = styled.div`
     background: #D65EFF;
   }
   &.group-2 {
-    background: #F3FF5E;
+    background: #FFAD05;
   }
   &.done {
     background: #d81e5b;

@@ -5,10 +5,11 @@ export const AppContext = createContext({});
 
 export const AppProvider = props => {
   const [array, setArray] = useState([]);
-  const [amount, setAmount] = useState(15);
+  const [amount, setAmount] = useState(16);
   const [block, setBlock] = useState(false);
   const [distance, setDistance] = useState(0);
   const [color, setColor] = useState("#3FFBBE");
+  const [speed, setSpeed] = useState(250);
   const [loading, setLoading] = useState(false);
   const [finished, setFinished] = useState(false);
 
@@ -82,7 +83,9 @@ export const AppProvider = props => {
         setLoading,
         finished,
         setFinished,
-        resetArray
+        resetArray,
+        speed,
+        setSpeed
       }}>
       {props.children}
     </AppContext.Provider>
