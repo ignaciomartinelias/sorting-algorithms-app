@@ -1,0 +1,278 @@
+.App {
+  .Header {
+    width: 100%;
+    height: 12.5vh;
+    padding: 0 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    h3 {
+      font-weight: 600;
+      width: fit-content;
+      margin: 0;
+    }
+    .ColorPicker {
+      margin: auto !important;
+      width: auto !important;
+      display: none !important;
+      justify-content: center !important;
+      align-items: center !important;
+      span {
+        div {
+          margin-bottom: 0 !important;
+        }
+      }
+      &.disabled span {
+        cursor: not-allowed;
+        pointer-events: none;
+        opacity: 0.5;
+      }
+    }
+    .sliders-wrapper {
+      width: 40%;
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      .slider-container {
+        width: 45%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .slider-label {
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translate(-50%, 75%);
+          font-weight: 500;
+        }
+      }
+    }
+    .burger-menu {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 25px;
+      }
+    }
+    .side-menu-container {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      right: -100%;
+      left: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 2;
+      transition: ease-in-out 0.5s;
+      .side-menu {
+        position: absolute;
+        padding: 40px;
+        width: 40%;
+        right: -40%;
+        top: 0;
+        height: 100vh;
+        background-color: white;
+        transition: ease-in-out 0.5s;
+        transition-delay: 0.5s;
+        &.open {
+          right: 0;
+        }
+        .close {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 30px;
+          img {
+            width: 100%;
+          }
+        }
+        .menu-container {
+          display: flex;
+          flex-direction: column;
+          justify-items: space-between;
+          align-items: center;
+          width: 100%;
+          .ColorPicker {
+            display: flex !important;;
+          }
+          .menu-item {
+            width: 100%;
+            padding: 50px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            span {
+              font-weight: 500;
+              margin-bottom: 20px;
+            }
+          }
+        }
+        @media only screen and (max-width: 769px) {
+          width: 60%;
+          right: -60%;
+        }
+        @media only screen and (max-width: 420px) {
+          width: 100%;
+          right: -100%;
+        }
+      }
+      &.open {
+        right: 0;
+        left: 0;
+      }
+    }
+    @media only screen and (min-width: 1025px) {
+      .burger-menu {
+        display: none;
+      }
+      .sliders-wrapper {
+        display: flex;
+      }
+      .ColorPicker {
+        display: flex !important;
+      }
+    }
+  }
+  .MainWrapper {
+    display: flex;
+    height: 65vh;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    width: 100%;
+    .items-container {
+      position: relative;
+      height: 50px;
+      width: 100%;
+      .sorting-item {
+        position: absolute;
+        border-radius: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transition: 0.2s all ease;
+        &.active {
+          background: #232528 !important;
+        }
+        &.group-1 {
+          background: #d65eff !important;
+        }
+        &.group-2 {
+          background: #ffad05 !important;
+        }
+        &.done {
+          background: #d81e5b !important;
+        }
+        span {
+          position: absolute;
+          top: -20px;
+          left: 50%;
+          transform: translate(-50%, 0);
+          font-size: 0.8em;
+        }
+      }
+      .placement-item {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        background: transparent;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+  .ToolBar {
+    width: 100%;
+    height: 22.5vh;
+    padding: 0 50px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    button,
+    .algorithm-select {
+      cursor: pointer;
+      padding: 10px 20px;
+      transition: 0.2s;
+
+      &:hover {
+        opacity: 0.75;
+      }
+      &:focus {
+        outline: none;
+      }
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+    }
+    .action-button {
+      background: black;
+      color: white;
+      border: solid 1px transparent;
+    }
+    .algorithm-button {
+      background: transparent;
+      border: solid 1px black;
+      color: black;
+    }
+    .algorithm-select {
+      display: none;
+      width: 80%;
+      margin-bottom: 40px;
+      background: transparent;
+      border: solid 1px black;
+      color: black;
+      appearance: none;
+      background-image: url(../src/arrow-down.svg);
+      background-size: 10px;
+      background-position: 95% 50%;
+      background-repeat: no-repeat;
+      option {
+        text-align: center;
+      }
+    }
+    @media only screen and (max-width: 768px) { 
+      flex-wrap: wrap;
+      align-content: flex-start;
+      .algorithm-select {
+        display: block;
+      }
+      .algorithm-button {
+        display: none;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .App {
+    .Header {
+      padding: 0 30px;
+    }
+    .MainWrapper {
+      padding: 30px 50px;
+    }
+    .ToolBar {
+      padding: 0 30px;
+    }
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .App {
+    .Header {
+      padding: 0 20px;
+    }
+    .MainWrapper {
+      padding: 20px;
+      height: 55vh;
+    }
+    .ToolBar {
+      height: 32.5vh;
+      padding: 0 20px;
+    }
+  }
+
+}

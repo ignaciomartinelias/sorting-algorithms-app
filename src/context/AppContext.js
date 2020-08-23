@@ -4,8 +4,10 @@ import { sortArray } from "../sortingAlgorithms/sortingAlgorithms";
 export const AppContext = createContext({});
 
 export const AppProvider = props => {
+
+  const initAmount = window.innerWidth < 1024 ? window.innerWidth < 420 ? 6 : 10 : 16;
   const [array, setArray] = useState([]);
-  const [amount, setAmount] = useState(16);
+  const [amount, setAmount] = useState(initAmount);
   const [block, setBlock] = useState(false);
   const [distance, setDistance] = useState(0);
   const [color, setColor] = useState("#3FFBBE");
@@ -26,7 +28,8 @@ export const AppProvider = props => {
   };
 
   const resetDistance = () => {
-    setDistance((document.documentElement.clientWidth - 100) / amount);
+    const padding = window.innerWidth < 1024 ? window.innerWidth < 420 ? 40 : 60 : 100;
+    setDistance((document.documentElement.clientWidth - padding) / amount);
   };
 
   const randomIntFromInterval = (min, max) => {

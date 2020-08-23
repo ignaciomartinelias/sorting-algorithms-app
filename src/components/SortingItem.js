@@ -1,48 +1,21 @@
 import React, {useContext} from "react";
-import styled from "styled-components";
 import {AppContext} from '../context/AppContext';
-
-const CircleWrapper = styled.div`
-  position: absolute;
-  width: ${props => (props.value * 50) / 100}px;
-  height: ${props => (props.value * 50) / 100}px;
-  background: ${props => props.color};
-  border-radius: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  left: ${props => props.order * props.distance + props.distance / 2}px;
-  transition: 0.2s all ease;
-
-  &.active {
-    background: #232528;
-  }
-  &.group-1 {
-    background: #D65EFF;
-  }
-  &.group-2 {
-    background: #FFAD05;
-  }
-  &.done {
-    background: #d81e5b;
-  }
-
-  span {
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    font-size: .8em;
-  }
-`;
 
 const SortingItem = ({ value, order }) => {
 
   const { distance, color} = useContext(AppContext);
+  const factor = window.innerWidth < 1024 ? window.innerWidth < 420 ? 30 : 40 : 50;
+  const style = {
+    width: `${(value * factor) / 100}px`,
+    height: `${(value * factor) / 100}px`,
+    background: color,
+    left: `${order * distance + distance / 2}px`
+  }
 
   return (
-    <CircleWrapper className='sorting-item' value={value} color={color} order={order} distance={distance}>
+    <div className='sorting-item' style={style} value={value} color={color} order={order} distance={distance}>
       <span>{value}</span>
-    </CircleWrapper>
+    </div>
   );
 };
 

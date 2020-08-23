@@ -1,12 +1,7 @@
 let abort = false;
-export function stop(delay) {
-  abort = true;
-  let items = Array.from(document.querySelectorAll(".sorting-item"));
-  items.forEach(el => el.classList.remove("done", "group-1", "group-2", "active"));
-}
 
-export function resume() {
-  abort = false;
+export function setAbort(bool) {
+  abort = bool;
 }
 
 function sleep(delay) {
