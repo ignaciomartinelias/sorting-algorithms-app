@@ -264,6 +264,11 @@
   .App {
     .Header {
       padding: 0 20px;
+      .side-menu-container {
+        .side-menu {
+          padding: 20px;
+        }
+      }
     }
     .MainWrapper {
       padding: 20px;
